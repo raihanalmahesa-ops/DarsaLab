@@ -1,0 +1,2336 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b24">
+<title>Darsa Lab | SAVE THE LAB</title>
+
+<style>
+:root {
+--bg:#101a22;
+--panel:#172630;
+--panel2:#1d303b;
+--line:#314752;
+--text:#e8f0f2;
+--muted:#9fb2bb;
+--cyan:#69c6d2;
+--green:#83c9a5;
+--amber:#e7bd72;
+--red:#e27d78;
+--shadow:0 14px 35px rgba(0,0,0,.22);
+}
+
+* {box-sizing:border-box}
+
+body {
+margin:0;
+background:radial-gradient(circle at 15% 0%,#203844 0,#101a22 38%,#0c141b 100%);
+color:var(--text);
+font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+min-height:100vh;
+}
+
+button,input {font:inherit}
+button {cursor:pointer}
+
+button:focus-visible,input:focus-visible,select:focus-visible {
+outline:3px solid var(--amber);
+outline-offset:2px;
+}
+
+.topbar {
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:15px clamp(16px,4vw,48px);
+border-bottom:1px solid var(--line);
+background:rgba(12,21,28,.9);
+position:sticky;
+top:0;
+z-index:5;
+backdrop-filter:blur(12px);
+}
+
+.brand {display:flex;align-items:center;gap:12px;min-width:0}
+
+.logo {
+width:42px;
+height:42px;
+border:1px solid #55727e;
+border-radius:10px;
+display:grid;
+place-items:center;
+color:var(--cyan);
+font-weight:800;
+letter-spacing:-2px;
+background:linear-gradient(145deg,#203b47,#14242d);
+}
+
+.brand strong {display:block;letter-spacing:.13em;font-size:13px}
+.brand small {display:block;color:var(--muted);font-size:11px;letter-spacing:.12em}
+
+.lang-toggle {
+border:1px solid #55727e;
+background:#20343e;
+color:var(--cyan);
+border-radius:7px;
+padding:6px 9px;
+font-size:10px;
+font-weight:800;
+letter-spacing:.08em;
+}
+.lang-toggle:hover {background:#2a4652}
+
+.status {
+display:flex;
+align-items:center;
+gap:9px;
+color:var(--muted);
+font-size:12px;
+white-space:nowrap;
+}
+
+.dot {
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--green);
+box-shadow:0 0 12px var(--green);
+}
+
+.shell {
+width:min(1180px,calc(100% - 32px));
+margin:26px auto 50px;
+display:grid;
+grid-template-columns:245px minmax(0,1fr);
+gap:20px;
+}
+
+.sidebar,.mainpanel {
+background:rgba(23,38,48,.94);
+border:1px solid var(--line);
+border-radius:16px;
+box-shadow:var(--shadow);
+}
+
+.sidebar {
+padding:18px;
+height:max-content;
+position:sticky;
+top:84px;
+}
+
+.side-title {
+font-size:10px;
+color:var(--muted);
+letter-spacing:.18em;
+font-weight:800;
+margin:3px 0 13px;
+}
+
+.progress-track {
+height:7px;
+background:#0d171e;
+border-radius:20px;
+overflow:hidden;
+margin:8px 0 7px;
+}
+
+.progress-fill {
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--cyan),var(--green));
+transition:width .35s;
+}
+
+.progress-meta {
+display:flex;
+justify-content:space-between;
+color:var(--muted);
+font-size:11px;
+}
+
+.navlist {display:grid;gap:7px;margin-top:22px}
+
+.navitem {
+display:flex;
+align-items:center;
+gap:10px;
+width:100%;
+text-align:left;
+padding:10px;
+border:1px solid transparent;
+border-radius:9px;
+background:transparent;
+color:var(--muted);
+}
+
+.navitem:hover {background:#20333e;color:var(--text)}
+.navitem.active {background:#213a45;border-color:#456774;color:var(--text)}
+.navitem.done .navnum {background:#244c3e;color:#a8e4c2;border-color:#477e68}
+
+.navnum {
+width:27px;
+height:27px;
+border:1px solid #4b626d;
+border-radius:7px;
+display:grid;
+place-items:center;
+font-size:11px;
+font-weight:800;
+flex:none;
+}
+
+.navtext b {display:block;font-size:12px;font-weight:700}
+.navtext small {display:block;font-size:10px;color:var(--muted)}
+
+.sidebar-note {
+border-top:1px solid var(--line);
+margin-top:20px;
+padding-top:15px;
+color:var(--muted);
+font-size:11px;
+}
+
+.timerbox {
+margin-top:15px;
+padding:12px;
+border-radius:10px;
+background:#0f1c24;
+border:1px solid #344b56;
+}
+
+.timerlabel {font-size:10px;letter-spacing:.13em;color:var(--muted)}
+
+.timer {
+font-size:27px;
+font-variant-numeric:tabular-nums;
+font-weight:750;
+letter-spacing:.06em;
+color:var(--green);
+}
+
+.timer.warning {color:var(--amber)}
+.timer.expired {color:var(--red)}
+
+.mainpanel {
+min-height:650px;
+padding:clamp(20px,4vw,38px);
+overflow:hidden;
+}
+
+.eyebrow {
+font-size:10px;
+letter-spacing:.2em;
+color:var(--cyan);
+font-weight:800;
+text-transform:uppercase;
+}
+
+h1,h2,h3,p {margin-top:0}
+
+h1 {
+font-size:clamp(30px,5vw,52px);
+line-height:1.05;
+letter-spacing:-.045em;
+margin:10px 0 14px;
+}
+
+h2 {font-size:25px;letter-spacing:-.025em;margin:7px 0 10px}
+h3 {font-size:15px;margin:0 0 7px}
+
+.lead {color:#c0cdd2;font-size:16px;max-width:720px}
+.muted {color:var(--muted)}
+.rule {height:1px;background:var(--line);margin:24px 0}
+
+.grid2 {
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:13px;
+}
+
+.card {
+background:#1b2d37;
+border:1px solid var(--line);
+border-radius:12px;
+padding:16px;
+}
+
+.card p:last-child {margin-bottom:0}
+
+.callout {
+border-left:3px solid var(--amber);
+background:#2a2b28;
+padding:13px 15px;
+border-radius:0 9px 9px 0;
+color:#e8d9b9;
+font-size:13px;
+}
+
+.info {
+border-left:3px solid var(--cyan);
+background:#1c303a;
+padding:13px 15px;
+border-radius:0 9px 9px 0;
+color:#c6dce1;
+font-size:13px;
+}
+
+.btnrow {display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+
+.btn {
+border:1px solid #55727e;
+background:#243b46;
+color:var(--text);
+border-radius:9px;
+padding:11px 17px;
+font-weight:700;
+font-size:13px;
+}
+
+.btn:hover {filter:brightness(1.15)}
+.btn.primary {background:var(--cyan);border-color:var(--cyan);color:#102129}
+.btn.ghost {background:transparent}
+.btn:disabled {opacity:.4;cursor:not-allowed}
+
+.pill {
+display:inline-flex;
+align-items:center;
+gap:7px;
+border:1px solid #45616d;
+border-radius:30px;
+padding:4px 9px;
+font-size:10px;
+color:#b8cbd1;
+letter-spacing:.08em;
+text-transform:uppercase;
+}
+
+.pill.green {border-color:#477d66;color:#a8e2c1}
+.pill.amber {border-color:#8d7146;color:#f0ce8f}
+
+.mission-head {
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.mission-art {
+background:linear-gradient(135deg,#203944,#172a34);
+border:1px solid #3c5964;
+border-radius:12px;
+padding:18px;
+margin:18px 0;
+}
+
+.art-caption {
+font-size:10px;
+letter-spacing:.15em;
+color:var(--muted);
+margin-bottom:12px;
+}
+
+.chromatogram {
+display:flex;
+justify-content:space-around;
+align-items:flex-end;
+gap:14px;
+min-height:160px;
+padding:10px 12px 0;
+}
+
+.strip {
+height:142px;
+width:54px;
+background:#e8e5d9;
+border-radius:3px 3px 0 0;
+position:relative;
+box-shadow:0 3px 12px #071118;
+overflow:hidden;
+}
+
+.strip:before {
+content:"";
+position:absolute;
+bottom:17px;
+left:0;
+right:0;
+border-top:2px solid #9b8f7b;
+}
+
+.strip .spot {
+position:absolute;
+height:7px;
+border-radius:50%;
+left:8px;
+right:8px;
+}
+
+.strip .origin {bottom:18px;background:#171717;height:6px}
+.strip .b1 {bottom:48px;background:#258c77}
+.strip .b2 {bottom:82px;background:#d7b32e}
+.strip .b3 {bottom:111px;background:#2879d0}
+.strip .b4 {bottom:63px;background:#4e83bd}
+/* TINTA A: blue, orange, and violet pigment bands */
+.strip .inkA-blue {bottom:111px;background:#2586e8}
+.strip .inkA-orange {bottom:82px;background:#f28c28}
+.strip .inkA-violet {bottom:48px;background:#8954b8}
+
+.striplabel {
+text-align:center;
+color:#c5d2d6;
+font-size:10px;
+margin-top:7px;
+}
+
+.paper {
+height:115px;
+background:#e9e3c9;
+border-radius:5px;
+position:relative;
+overflow:hidden;
+padding:12px;
+color:#333;
+font-family:Georgia,serif;
+}
+
+.paper .secret {
+margin-top:23px;
+text-align:center;
+font-weight:bold;
+letter-spacing:.16em;
+color:#a14c35;
+font-size:20px;
+}
+
+.paper .paperline {
+height:1px;
+background:#c8bda0;
+margin:5px 0;
+}
+
+.clockdemo {
+display:flex;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+}
+
+.reaction-vessel {
+width:104px;
+height:112px;
+position:relative;
+margin:0 auto;
+border:3px solid #a8c2c9;
+border-top:0;
+border-radius:5px 5px 22px 22px;
+background:linear-gradient(to top, #253f9b 0 28%, #d6a13a 29% 48%, #dce9e8 49% 66%, transparent 67%);
+box-shadow:inset 0 0 0 5px rgba(168,194,201,.08);
+}
+
+.reaction-vessel:before {
+content:"";
+position:absolute;
+left:-7px;
+top:-4px;
+width:112px;
+height:7px;
+border:3px solid #a8c2c9;
+border-radius:5px;
+background:#172630;
+}
+
+.reaction-vessel:after {
+content:"";
+position:absolute;
+left:10px;
+right:10px;
+bottom:10px;
+height:7px;
+border-radius:50%;
+background:rgba(220,233,232,.45);
+}
+
+.field {display:grid;gap:7px;margin:14px 0}
+
+.field label {
+font-size:12px;
+font-weight:700;
+color:#c6d4d9;
+}
+
+select,input[type=text] {
+width:100%;
+max-width:430px;
+padding:11px 12px;
+border-radius:8px;
+border:1px solid #506873;
+background:#0f1c24;
+color:var(--text);
+}
+
+
+/* INTERACTIVE INVESTIGATION CHALLENGES */
+.challenge {
+  margin:16px 0;
+  padding:16px;
+  border:1px solid #526d78;
+  border-radius:12px;
+  background:linear-gradient(145deg,#1b303a,#14242d);
+}
+.challenge-top {display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.challenge-step {font-size:10px;letter-spacing:.14em;color:var(--amber);font-weight:800}
+.challenge-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}
+.challenge-grid .field {margin:0}
+.challenge-grid select {max-width:none}
+.turmeric-options {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:14px 0;
+}
+.turmeric-option {
+  text-align:left;
+  border:1px solid #526d78;
+  border-radius:10px;
+  padding:12px;
+  background:#10202a;
+  color:var(--text);
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.turmeric-option:hover {transform:translateY(-2px);border-color:var(--cyan)}
+.turmeric-option.selected {border:2px solid var(--amber);background:#303026}
+.turmeric-option b {display:block;font-size:12px;margin-top:9px}
+.turmeric-option small {display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.test-paper {
+  height:82px;
+  border-radius:6px;
+  background:#e9d96c;
+  border:1px solid #c4b45a;
+  display:grid;
+  place-items:center;
+  color:#4b4120;
+  font-family:Georgia,serif;
+  font-weight:bold;
+  letter-spacing:.08em;
+  text-align:center;
+  padding:8px;
+}
+.test-paper.red-writing {color:#9b3928}
+.test-paper.all-red {background:#a94b37;color:#fff0d5;border-color:#8b3829}
+.test-paper.blue-writing {color:#3268a2}
+@media(max-width:560px) {.turmeric-options{grid-template-columns:1fr}}
+
+.hint-text {display:none;margin:12px 0 0;padding:10px 12px;border-left:3px solid var(--amber);background:#302d25;color:#ead9b5;border-radius:0 8px 8px 0;font-size:12px}
+.hint-text.revealed {display:block}
+.case-stamp {display:inline-flex;padding:5px 9px;border-radius:5px;background:#342e24;border:1px solid #806943;color:#f0ce8f;font-size:10px;font-weight:800;letter-spacing:.12em}
+@media(max-width:560px){.challenge-grid{grid-template-columns:1fr}.challenge{padding:13px}}
+
+.feedback {
+display:none;
+margin-top:12px;
+padding:11px 13px;
+border-radius:8px;
+font-size:13px;
+}
+
+.feedback.show {display:block}
+.feedback.good {background:#19392f;border:1px solid #3e765e;color:#b6e8c9}
+.feedback.bad {background:#3a2929;border:1px solid #805050;color:#f0b8b5}
+
+.evidence-list {display:grid;gap:9px}
+
+.evidence {
+display:flex;
+align-items:center;
+gap:11px;
+padding:11px;
+border:1px solid var(--line);
+border-radius:9px;
+background:#14242d;
+}
+
+.evidence.locked {opacity:.45}
+
+.evidence-icon {
+width:32px;
+height:32px;
+border-radius:8px;
+background:#24414b;
+display:grid;
+place-items:center;
+color:var(--cyan);
+font-weight:800;
+}
+
+.evidence b {display:block;font-size:12px}
+.evidence small {color:var(--muted);font-size:10px}
+
+.codeboxes {display:flex;gap:9px;margin:18px 0}
+
+.codeboxes input {
+width:54px;
+height:62px;
+text-align:center;
+font-size:25px;
+font-weight:800;
+letter-spacing:.1em;
+padding:0;
+}
+
+.footer {
+margin-top:25px;
+padding-top:15px;
+border-top:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+gap:12px;
+color:var(--muted);
+font-size:10px;
+}
+
+.hidden {display:none!important}
+ul {padding-left:19px;color:#c1cfd4}
+li {margin:5px 0}
+.small {font-size:11px}
+
+.success-screen {text-align:center;padding:25px 10px}
+
+.success-icon {
+width:88px;
+height:88px;
+border-radius:50%;
+display:grid;
+place-items:center;
+margin:0 auto 20px;
+background:#1c4437;
+border:1px solid #4c9472;
+color:#a8e8c2;
+font-size:42px;
+}
+
+.certificate {
+max-width:600px;
+margin:22px auto;
+padding:30px;
+border:3px double #638878;
+border-radius:12px;
+background:radial-gradient(circle at top,#29463f,#172630 70%);
+box-shadow:0 0 30px rgba(105,198,210,.12);
+text-align:center;
+position:relative;
+}
+
+.certificate strong {
+display:block;
+font-size:29px;
+letter-spacing:.18em;
+color:#b9e8cf;
+}
+
+.certificate h2 {
+color:#b9e8cf;
+letter-spacing:.08em;
+margin-top:15px;
+}
+
+.certificate input {
+text-align:center;
+max-width:100%;
+font-size:18px;
+font-weight:800;
+background:transparent;
+border:0;
+border-bottom:1px solid #638878;
+border-radius:0;
+color:#b9e8cf;
+}
+
+.certificate input::placeholder {color:#8fae9e}
+
+.certificate-grid {
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+}
+
+.certificate-stat {
+padding:10px;
+border:1px solid #45616d;
+border-radius:9px;
+}
+
+.certificate-stat h2 {margin:7px 0}
+
+@media(max-width:800px) {
+.shell {grid-template-columns:1fr;margin-top:15px}
+.sidebar {position:static}
+.navlist {grid-template-columns:repeat(2,minmax(0,1fr));margin-top:15px}
+.sidebar-note {display:none}
+.mainpanel {min-height:520px}
+.topbar {padding:12px 16px}
+}
+
+@media(max-width:480px) {
+.status span:last-child {display:none}
+.navlist {grid-template-columns:1fr 1fr}
+.mainpanel {padding:19px}
+.grid2 {grid-template-columns:1fr}
+.codeboxes input {width:47px;height:56px}
+.chromatogram {gap:7px}
+.strip {width:43px}
+.certificate {padding:20px}
+.certificate-grid {gap:8px}
+.certificate strong {font-size:22px}
+}
+
+@media print {
+@page {size:A4;margin:15mm}
+
+body {
+background:white!important;
+color:#172630!important;
+min-height:0;
+}
+
+.topbar,.sidebar,.btnrow,.footer,
+body.print-certificate .mainpanel > .page:not(#page-success) {
+display:none!important;
+}
+
+.shell {
+display:block;
+width:100%;
+margin:0;
+}
+
+.mainpanel {
+display:block!important;
+min-height:0;
+padding:0;
+border:0;
+box-shadow:none;
+background:white!important;
+overflow:visible;
+}
+
+#page-success {display:block!important}
+.success-screen {padding:0}
+
+.success-screen > .eyebrow,
+.success-screen > h1,
+.success-screen > .lead,
+.success-screen > .success-icon {
+display:none!important;
+}
+
+.certificate {
+max-width:100%;
+margin:0 auto;
+padding:35px;
+color:#172630!important;
+background:white!important;
+border:4px double #638878!important;
+box-shadow:none;
+print-color-adjust:exact;
+-webkit-print-color-adjust:exact;
+}
+
+.certificate strong,.certificate h2 {
+color:#244c3e!important;
+}
+
+.certificate p,.certificate .muted {
+color:#344b42!important;
+}
+
+.certificate .eyebrow {color:#527d6a!important}
+
+.certificate input {
+color:#244c3e!important;
+background:white!important;
+}
+
+.certificate-stat {border-color:#638878!important}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="brand">
+<div class="logo">DL</div>
+<div>
+<strong>DARSA LAB</strong>
+<small>SISTEM RESPONS KIMIA</small>
+</div>
+</div>
+
+<div class="status">
+<span class="dot"></span>
+<span id="systemStatus">SISTEM SIAGA</span>
+<button class="lang-toggle" id="languageToggle" type="button" onclick="toggleLanguage()">ENGLISH</button>
+<span>•</span>
+<span>DIBUAT OLEH GENTLE</span>
+</div>
+</header>
+
+<div class="shell">
+
+<aside class="sidebar">
+
+<div class="side-title">KENDALI MISI</div>
+
+<div class="progress-meta">
+<span>PROGRES MISI</span>
+<b id="progressText">0 / 3</b>
+</div>
+
+<div class="progress-track">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="navlist">
+
+<button class="navitem active" data-page="briefing">
+<span class="navnum">00</span>
+<span class="navtext">
+<b>Pengarahan</b>
+<small>Laporan darurat</small>
+</span>
+</button>
+
+<button class="navitem" data-page="m1">
+<span class="navnum">01</span>
+<span class="navtext">
+<b>Tanda tangan yang hilang</b>
+<small>Kromatografi kertas</small>
+</span>
+</button>
+
+<button class="navitem" data-page="m2">
+<span class="navnum">02</span>
+<span class="navtext">
+<b>Pesan rahasia</b>
+<small>Tinta tak terlihat</small>
+</span>
+</button>
+
+<button class="navitem" data-page="m3">
+<span class="navnum">03</span>
+<span class="navtext">
+<b>Pendeteksi warna</b>
+<small>Indikator kubis ungu</small>
+</span>
+</button>
+
+<button class="navitem" data-page="evidence">
+<span class="navnum">04</span>
+<span class="navtext">
+<b>Basis data bukti</b>
+<small>Petunjuk terkumpul</small>
+</span>
+</button>
+
+<button class="navitem" data-page="access">
+<span class="navnum">05</span>
+<span class="navtext">
+<b>Akses darurat</b>
+<small>Kode akhir</small>
+</span>
+</button>
+
+</div>
+
+<div class="timerbox">
+<div class="timerlabel">WAKTU MISI TERSISA</div>
+<div class="timer" id="timer">20:00</div>
+<div class="small muted" id="timerHint">
+Penghitung waktu dimulai saat misi dimulai.
+</div>
+</div>
+
+<div class="sidebar-note">
+MODE PELATIHAN · Ikuti arahan fasilitator stan.
+Lakukan percobaan langsung di stasiun yang telah ditentukan.
+</div>
+
+</aside>
+
+<main class="mainpanel">
+
+<!-- BRIEFING -->
+
+<section class="page" id="page-briefing">
+
+<div class="eyebrow">Tanggap darurat / Kasus DL-2045</div>
+
+<h1>SAVE THE LAB<span style="color:var(--cyan)">.</span></h1>
+
+<p class="lead">
+Tiga eksperimen. Tiga teka-teki bukti. Satu laboratorium terkunci.
+Analisis hasil percobaan, pecahkan pesan tersembunyi, dan kumpulkan kembali bukti sebelum waktu habis.
+</p>
+
+<div class="mission-art">
+
+<div class="art-caption">
+TRANSMISI SISTEM MASUK · 07:00:13
+</div>
+
+<div class="pill amber">⚠ PENGUNCIAN DIAKTIFKAN</div>
+
+<h2 style="margin-top:13px">Laporan darurat</h2>
+
+<p>
+Pada pukul 09.42, Darsa Lab mendeteksi kejadian tak terduga pada
+tahap akhir sebuah proyek penelitian. Sistem keamanan pusat mengisolasi laboratorium dan mengenkripsi kode akses daruratnya.
+</p>
+
+<p>
+Kepala ilmuwan meninggalkan tiga petunjuk sebelum sistem
+berhenti beroperasi. Setiap petunjuk dapat diselidiki melalui
+teknik kimia yang berbeda.
+</p>
+
+<div class="callout">
+<b>PESAN DARI KEPALA ILMUWAN</b><br>
+"Jangan menebak. Amati dengan teliti, periksa buktinya,
+dan biarkan ilmu kimia mengungkap jawabannya."
+</div>
+
+</div>
+
+<div class="grid2">
+
+<div class="card">
+<div class="eyebrow">PERANMU</div>
+<h3>Tim Kimia Tanggap Darurat</h3>
+<p class="muted small">
+Selidiki ketiga stasiun dan masukkan hasil pengamatan
+yang benar ke komputer.
+</p>
+</div>
+
+<div class="card">
+<div class="eyebrow">TUJUANMU</div>
+<h3>Temukan kode akses</h3>
+<p class="muted small">
+Setiap stasiun memiliki tantangan analisis bukti bertahap. Selesaikan ketiganya untuk memperoleh angka akses dan memulihkan sistem.
+</p>
+</div>
+
+</div>
+
+<div class="rule"></div>
+
+<h3>Sebelum memulai</h3>
+
+<ul>
+<li>Kerjakan misi secara berurutan.</li>
+<li>Lakukan percobaan langsung di stan yang sesuai.</li>
+<li>Gunakan situs ini untuk mengirim hasil pengamatan atau jawabanmu.</li>
+<li>Tanyakan kepada fasilitator sebelum menangani bahan laboratorium.</li>
+</ul>
+
+<div class="callout">
+Pemberitahuan keselamatan: Gunakan hanya bahan yang telah disiapkan fasilitator. Ikuti petunjuk stasiun, jangan mencicipi sampel, dan jangan menangani bahan kimia tanpa arahan fasilitator.
+</div>
+
+<div class="btnrow">
+<button class="btn primary" id="startBtn">MULAI MISI →</button>
+<button class="btn ghost" id="skipBriefBtn">Lihat petunjuk terlebih dahulu</button>
+</div>
+
+</section>
+
+<!-- MISSION 01: CHROMATOGRAPHY -->
+
+<section class="page hidden" id="page-m1">
+
+<div class="mission-head">
+
+<div>
+<div class="eyebrow">Misi 01 / Analisis bukti</div>
+<h1>TANDA TANGAN YANG HILANG</h1>
+</div>
+
+<span class="pill">KROMATOGRAFI KERTAS</span>
+
+</div>
+
+<p class="lead">
+Sebuah tanda tangan spidol ditemukan pada berkas penelitian rahasia.
+Kromatografi kertas memisahkan tinta menjadi pigmen berwarna.
+Tentukan tinta pembanding yang memiliki pola pigmen yang sama.
+</p>
+
+<div class="mission-art">
+
+<div class="art-caption">
+GAMBAR BUKTI · PERBANDINGAN TINTA
+</div>
+
+<div class="chromatogram">
+
+<!-- TINTA A: CORRECT MATCH -->
+
+<div>
+<div class="strip">
+<i class="spot origin"></i>
+<i class="spot inkA-blue"></i>
+<i class="spot inkA-orange"></i>
+<i class="spot inkA-violet"></i>
+</div>
+<div class="striplabel">TINTA A</div>
+</div>
+
+<!-- TINTA B: DIFFERENT PATTERN -->
+
+<div>
+<div class="strip">
+<i class="spot origin"></i>
+<i class="spot b2"></i>
+<i class="spot b4"></i>
+</div>
+<div class="striplabel">TINTA B</div>
+</div>
+
+<!-- TINTA C: DIFFERENT PATTERN -->
+
+<div>
+<div class="strip">
+<i class="spot origin"></i>
+<i class="spot b1"></i>
+<i class="spot b4"></i>
+<i class="spot b3"></i>
+</div>
+<div class="striplabel">TINTA C</div>
+</div>
+
+</div>
+
+<p class="small muted" style="margin:12px 0 0">
+Pemindai menemukan tiga kemungkinan tinta. Jangan hanya mengandalkan label—catat urutan warna dari sampel bukti dan cocokkan setiap pita warna.
+</p>
+
+</div>
+
+<div class="challenge">
+  <div class="challenge-top">
+    <div><div class="challenge-step">PEMINDAI FORENSIK · TUGAS 1/3</div><h3 style="margin:5px 0 0">Susun kembali pola pigmen</h3></div>
+    <span class="case-stamp">3 PITA UNTUK DIPERIKSA</span>
+  </div>
+  <p class="small muted" style="margin:8px 0 0">Catat pita sampel dari atas ke bawah, lalu tentukan tinta pembanding yang cocok.</p>
+  <div class="challenge-grid">
+    <div class="field"><label for="bandTop">PITA PALING ATAS</label><select id="bandTop"><option value="">Pilih warna</option><option value="Biru">Biru</option><option value="Oranye">Oranye</option><option value="Ungu">Ungu</option><option value="Hijau">Hijau</option><option value="Kuning">Kuning</option></select></div>
+    <div class="field"><label for="bandMiddle">PITA TENGAH</label><select id="bandMiddle"><option value="">Pilih warna</option><option value="Biru">Biru</option><option value="Oranye">Oranye</option><option value="Ungu">Ungu</option><option value="Hijau">Hijau</option><option value="Kuning">Kuning</option></select></div>
+    <div class="field"><label for="bandBottom">PITA PALING BAWAH</label><select id="bandBottom"><option value="">Pilih warna</option><option value="Biru">Biru</option><option value="Oranye">Oranye</option><option value="Ungu">Ungu</option><option value="Hijau">Hijau</option><option value="Kuning">Kuning</option></select></div>
+  </div>
+  <div class="field"><label for="inkAnswer">TINTA PEMBANDING MANA YANG COCOK?</label><select id="inkAnswer"><option value="">Pilih hasil analisismu...</option><option value="A">Tinta A</option><option value="B">Tinta B</option><option value="C">Tinta C</option></select></div>
+  <button class="btn ghost" type="button" onclick="toggleHint('hint1')">Tampilkan petunjuk analisis</button>
+  <p class="hint-text" id="hint1">Bandingkan ketiga pita secara berurutan. Pola yang benar memiliki warna biru di atas, oranye di tengah, dan ungu di bawah.</p>
+</div>
+
+<div class="grid2">
+
+<div class="card">
+<h3>Petunjuk percobaan</h3>
+<ol>
+<li>Buat titik tinta kecil di dekat garis pensil pada kertas kromatografi.</li>
+<li>Letakkan kertas pada sedikit air dengan posisi titik tinta tetap berada di atas permukaan air.</li>
+<li>Biarkan pelarut bergerak naik melalui kertas.</li>
+<li>Bandingkan pita pigmen yang terpisah dengan pita pembanding.</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>Hal yang perlu diamati</h3>
+<p class="muted small">
+Tinta spidol dapat mengandung beberapa zat pewarna.
+Dalam kromatografi, pigmen-pigmen tersebut terpisah karena
+interaksinya dengan kertas dan pelarut berbeda.
+</p>
+
+<div class="info">
+Perhatikan jumlah, warna, dan posisi relatif pita pigmen.
+Tinta A seharusnya menunjukkan warna biru, oranye, dan ungu.
+</div>
+
+</div>
+
+</div>
+
+<div class="btnrow">
+<button class="btn primary" onclick="submitMission(1)">
+KIRIM BUKTI
+</button>
+
+<button class="btn ghost" onclick="showPage('evidence')">
+Basis data bukti
+</button>
+</div>
+
+<div class="feedback" id="feedback1" role="status"></div>
+
+</section>
+
+<!-- MISSION 02: TINTA TAK TERLIHAT -->
+
+<section class="page hidden" id="page-m2">
+
+<div class="mission-head">
+
+<div>
+<div class="eyebrow">Misi 02 / Deteksi kimia</div>
+<h1>PESAN TERSEMBUNYI</h1>
+</div>
+
+<span class="pill">TINTA TAK TERLIHAT</span>
+
+</div>
+
+<p class="lead">
+Catatan dari kepala ilmuwan tampak kosong.
+Gunakan kertas indikator yang telah disiapkan untuk mengungkap pesan tersembunyi.
+</p>
+
+<div class="mission-art">
+
+<div class="art-caption">
+DOKUMEN TEMUAN · PESAN TERUNGKAP
+</div>
+
+<div class="paper">
+<div class="paperline"></div>
+<div class="paperline"></div>
+<div class="secret">KODE AKSES: 2</div>
+<div class="paperline" style="margin-top:18px"></div>
+<div class="paperline"></div>
+</div>
+
+<p class="small muted" style="margin:10px 0 0">
+Ilustrasi hasil yang diharapkan. Pesan sebenarnya
+akan terlihat pada kertas yang disiapkan di stan.
+</p>
+
+</div>
+
+<div class="grid2">
+
+<div class="card">
+<h3>Petunjuk percobaan</h3>
+<ol>
+<li>Ambil kertas indikator kunyit yang telah disiapkan dari fasilitator.</li>
+<li>Gunakan alat yang disediakan untuk mengungkap tulisan tersembunyi sesuai arahan fasilitator.</li>
+<li>Amati perubahan warna dan baca pesan yang terungkap.</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>Catatan kimia</h3>
+<p class="muted small">
+Kunyit mengandung kurkumin, pigmen alami yang
+berubah warna dalam kondisi basa.
+</p>
+<div class="info">
+Latar kuning dapat memperlihatkan tulisan berwarna
+merah kecokelatan pada bagian yang terkena larutan basa.
+</div>
+</div>
+
+</div>
+
+<div class="challenge">
+  <div class="challenge-step">ANALISIS BUKTI KIMIA · TUGAS 2/3</div>
+  <h3 style="margin:5px 0 8px">Hasil mana yang menunjukkan tulisan tersembunyi?</h3>
+  <p class="small muted">Kepala ilmuwan menguji tiga kemungkinan hasil warna. Bandingkan hasil pada kertas indikator dan pilih hasil yang sesuai dengan reaksi kunyit dalam larutan basa.</p>
+
+  <div class="turmeric-options" role="group" aria-label="Pilihan hasil indikator kunyit">
+    <button class="turmeric-option" type="button" data-turmeric="alkaline" aria-pressed="false" onclick="selectTurmericOption(this)">
+      <div class="test-paper red-writing">PESAN RAHASIA</div>
+      <b>HASIL A · Kuning + tulisan merah kecokelatan</b>
+      <small>Latar tetap kuning, sedangkan bagian tulisan berubah warna.</small>
+    </button>
+    <button class="turmeric-option" type="button" data-turmeric="acidic" aria-pressed="false" onclick="selectTurmericOption(this)">
+      <div class="test-paper all-red">PESAN RAHASIA</div>
+      <b>HASIL B · Seluruh kertas merah kecokelatan</b>
+      <small>Seluruh kertas indikator berubah menjadi warna yang sama.</small>
+    </button>
+    <button class="turmeric-option" type="button" data-turmeric="neutral" aria-pressed="false" onclick="selectTurmericOption(this)">
+      <div class="test-paper blue-writing">PESAN RAHASIA</div>
+      <b>HASIL C · Kuning + tulisan biru</b>
+      <small>Tulisan tampak biru di atas kertas kuning.</small>
+    </button>
+  </div>
+
+  <button class="btn ghost" type="button" onclick="toggleHint('hint2')">Tampilkan petunjuk kimia</button>
+  <p class="hint-text" id="hint2">Kunyit mengandung kurkumin. Dalam kondisi basa, pigmen kuning berubah menjadi merah kecokelatan. Perubahan warna hanya muncul pada bagian kertas yang terkena larutan basa.</p>
+  <p class="small muted" id="turmericSelectionStatus" aria-live="polite">Belum ada hasil yang dipilih.</p>
+</div>
+
+<div class="field">
+
+<label for="messageAnswer">
+Angka berapa yang terungkap dari pesan tersembunyi?
+</label>
+
+<select id="messageAnswer">
+<option value="">Pilih angka yang terungkap...</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+</select>
+
+</div>
+
+<div class="btnrow">
+<button class="btn primary" onclick="submitMission(2)">
+KIRIM BUKTI
+</button>
+<button class="btn ghost" onclick="showPage('evidence')">
+Basis data bukti
+</button>
+</div>
+
+<div class="feedback" id="feedback2" role="status"></div>
+
+</section>
+
+<!-- MISSION 03: INDIKATOR KUBIS UNGU -->
+
+<section class="page hidden" id="page-m3">
+
+<div class="mission-head">
+  <div>
+    <div class="eyebrow">Misi 03 / Deteksi pH alami</div>
+    <h1>PENDETEKSI WARNA</h1>
+  </div>
+  <span class="pill">INDIKATOR KUBIS UNGU</span>
+</div>
+
+<p class="lead">
+  Kepala ilmuwan meninggalkan tiga sampel misterius di laboratorium.
+  Gunakan indikator alami dari kubis ungu untuk menguji susu,
+  air lemon, dan air netral. Tentukan sampel yang paling asam untuk
+  memperoleh angka terakhir.
+</p>
+
+<div class="mission-art">
+  <div class="art-caption">UJI SAMPEL · INDIKATOR KUBIS UNGU</div>
+
+  <div class="grid2">
+    <div class="card" style="text-align:center">
+      <div style="font-size:38px">🥛</div>
+      <h3>SUSU</h3>
+      
+      <div style="height:12px;border-radius:8px;background:#b58aa8;margin-top:12px"></div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:38px">🍋</div>
+      <h3>AIR LEMON</h3>
+      
+      <div style="height:12px;border-radius:8px;background:#e66b91;margin-top:12px"></div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:38px">💧</div>
+      <h3>AIR NETRAL</h3>
+      
+      <div style="height:12px;border-radius:8px;background:#8066a8;margin-top:12px"></div>
+    </div>
+    <div class="card">
+      <h3>Panduan warna</h3>
+      <p class="small muted">
+        Kubis ungu mengandung antosianin, pigmen yang berubah warna
+        bergantung pada pH larutan.
+      </p>
+      <div class="info">
+        Sampel asam cenderung berubah menjadi merah muda atau merah, sedangkan sampel netral biasanya tetap ungu.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h3>Petunjuk percobaan</h3>
+    <ol>
+      <li>Ambil tiga gelas sampel berlabel dari fasilitator.</li>
+      <li>Tambahkan indikator kubis ungu yang telah disiapkan sesuai petunjuk.</li>
+      <li>Amati warna yang dihasilkan pada setiap sampel.</li>
+      <li>Bandingkan warnanya dan tentukan sampel yang paling asam.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>Catatan kimia</h3>
+    <p class="muted small">
+      Kubis ungu mengandung pigmen antosianin. Struktur molekulnya
+      berubah dalam kondisi pH yang berbeda sehingga menghasilkan
+      perubahan warna yang dapat diamati.
+    </p>
+    <div class="info">
+      Air lemon lebih asam daripada susu, sedangkan air netral
+      memiliki pH sekitar 7.
+    </div>
+  </div>
+</div>
+
+<div class="callout">
+  <b>PERINGATAN KESELAMATAN:</b> Gunakan hanya sampel dan indikator yang telah
+  disiapkan fasilitator. Jangan mencicipi cairan. Jauhkan sampel dari
+  mata dan cuci tangan setelah kegiatan.
+</div>
+
+<div class="challenge">
+  <div class="challenge-step">ANALISIS SAMPEL · TUGAS 3/3</div>
+  <h3 style="margin:5px 0 8px">Susun kembali urutan sampel</h3>
+  <p class="small muted">Catatan keamanan telah mengacak urutan sampel. Susun ketiganya dari yang paling tidak asam hingga yang paling asam berdasarkan warna indikator yang kamu amati.</p>
+  <div class="challenge-grid">
+    <div class="field"><label for="cabbageFirst">1 · PALING TIDAK ASAM</label><select id="cabbageFirst"><option value="">Pilih sampel</option><option value="water">Air netral</option><option value="milk">Susu</option><option value="lemon">Air lemon</option></select></div>
+    <div class="field"><label for="cabbageSecond">2 · TENGAH</label><select id="cabbageSecond"><option value="">Pilih sampel</option><option value="water">Air netral</option><option value="milk">Susu</option><option value="lemon">Air lemon</option></select></div>
+    <div class="field"><label for="cabbageThird">3 · PALING ASAM</label><select id="cabbageThird"><option value="">Pilih sampel</option><option value="water">Air netral</option><option value="milk">Susu</option><option value="lemon">Air lemon</option></select></div>
+  </div>
+  <button class="btn ghost" type="button" onclick="toggleHint('hint3')">Tampilkan petunjuk analisis</button>
+  <p class="hint-text" id="hint3">Mulailah dengan sampel yang warnanya paling mendekati ungu, lanjutkan dengan sampel yang berubah sedikit, dan akhiri dengan sampel yang menunjukkan perubahan merah muda/merah paling kuat.</p>
+</div>
+
+<div class="btnrow">
+  <button class="btn primary" onclick="submitMission(3)" type="button">
+    KIRIM HASIL PENGAMATAN
+  </button>
+  <button class="btn ghost" onclick="showPage('evidence')" type="button">
+    Basis data bukti
+  </button>
+</div>
+
+<div class="feedback" id="feedback3" role="status"></div>
+
+</section>
+
+<!-- BASIS DATA BUKTI -->
+
+<section class="page hidden" id="page-evidence">
+
+<div class="eyebrow">Arsip pusat / Arsip bukti</div>
+
+<h1>BASIS DATA BUKTI</h1>
+
+<p class="lead">
+Setiap penyelidikan yang selesai akan disimpan di sini.
+Kumpulkan ketiga angka rahasia untuk meminta akses darurat.
+</p>
+
+<div class="evidence-list" id="evidenceList"></div>
+
+<div class="rule"></div>
+
+<div class="card">
+
+<div class="eyebrow">STATUS KEAMANAN</div>
+
+<h2 id="evidenceCount">0 dari 3 petunjuk ditemukan</h2>
+
+<p class="muted small" id="evidenceHint">
+Selesaikan ketiga misi untuk membuka panel akses darurat.
+</p>
+
+<div class="progress-track">
+<div class="progress-fill" id="evidenceFill"></div>
+</div>
+
+</div>
+
+<div class="btnrow">
+<button class="btn primary" id="toAccessBtn" onclick="showPage('access')" disabled>
+BUKA AKSES DARURAT →
+</button>
+</div>
+
+</section>
+
+<!-- AKSES DARURAT -->
+
+<section class="page hidden" id="page-access">
+
+<div class="eyebrow">Terminal keamanan / Tahap akhir</div>
+
+<h1>AKSES DARURAT</h1>
+
+<p class="lead">
+Masukkan kode tiga angka yang diperoleh dari eksperimenmu.
+Sistem akan memverifikasi bukti yang kamu kumpulkan.
+</p>
+
+<div class="mission-art">
+
+<div class="art-caption">
+DARSA LAB · TERMINAL AKSES TERENKRIPSI
+</div>
+
+<div class="codeboxes">
+<input aria-label="Angka pertama" id="d1" inputmode="numeric" maxlength="1">
+<input aria-label="Angka kedua" id="d2" inputmode="numeric" maxlength="1">
+<input aria-label="Angka ketiga" id="d3" inputmode="numeric" maxlength="1">
+</div>
+
+<p class="small muted">
+Masukkan satu angka di setiap kotak. Selesaikan ketiga
+misi terlebih dahulu.
+</p>
+
+</div>
+
+<div class="btnrow">
+<button class="btn primary" id="unlockBtn" onclick="unlockLab()" disabled>
+VERIFIKASI KODE AKSES
+</button>
+<button class="btn ghost" onclick="showPage('evidence')">
+Periksa bukti
+</button>
+</div>
+
+<div class="feedback" id="accessFeedback" role="status"></div>
+
+</section>
+
+<!-- BERHASIL / CERTIFICATE -->
+
+<section class="page hidden" id="page-success">
+
+<div class="success-screen">
+
+<div class="success-icon">✦</div>
+
+<div class="eyebrow">Protokol darurat selesai</div>
+
+<h1 style="font-size:clamp(32px,6vw,58px)">
+LABORATORIUM DIPULIHKAN.
+</h1>
+
+<p class="lead" style="margin:0 auto">
+Tiga penyelidikan selesai. Laboratorium berhasil dipulihkan.
+Perjalanan ilmiahmu telah tercatat.
+</p>
+
+<div class="certificate">
+
+<div class="eyebrow">
+SERTIFIKAT PENCAPAIAN RESMI
+</div>
+
+<div style="font-size:42px;margin:15px 0">⚗</div>
+
+<strong>DARSA LAB</strong>
+
+<h2>ELIT KIMIA</h2>
+
+<p style="color:#c6d8d1;margin:12px 0">
+Sertifikat ini diberikan kepada
+</p>
+
+<input
+type="text"
+id="participantName"
+placeholder="Masukkan nama peserta / tim"
+aria-label="Nama peserta atau tim"
+>
+
+<p style="color:#c6d8d1;margin-top:18px">
+Atas keberhasilan menyelesaikan ketiga penyelidikan kimia
+dan memulihkan sistem keamanan Darsa Lab.
+</p>
+
+<div class="rule"></div>
+
+<div class="certificate-grid">
+
+<div class="certificate-stat">
+<div class="eyebrow">WAKTU PENYELESAIAN</div>
+<h2 id="finalTime">00:00</h2>
+</div>
+
+<div class="certificate-stat">
+<div class="eyebrow">REKOR WAKTU</div>
+<h2 id="speedRecord">00:00</h2>
+<span class="small muted" id="recordLabel">WAKTU TERBAIK</span>
+</div>
+
+<div class="certificate-stat">
+<div class="eyebrow">EKSPERIMEN</div>
+<h2>03 / 03</h2>
+</div>
+
+<div class="certificate-stat">
+<div class="eyebrow">STATUS MISI</div>
+<span class="pill green">BERHASIL</span>
+</div>
+
+</div>
+
+<div class="rule"></div>
+
+<div class="small muted">
+ID SERTIFIKAT:
+<strong id="certificateID">DL-000000</strong>
+</div>
+
+<p class="small muted" style="margin-top:12px">
+DARSA LAB · PROGRAM PENYELIDIKAN ILMIAH
+</p>
+
+<p class="small muted" style="margin-top:20px">
+AMATI · ANALISIS · SIMPULKAN
+</p>
+
+</div>
+
+<div class="btnrow" style="justify-content:center">
+<button class="btn primary" onclick="printCertificate()">
+CETAK SERTIFIKAT
+</button>
+<button class="btn ghost" onclick="resetMission()">
+TIM BARU
+</button>
+</div>
+
+</div>
+
+</section>
+
+<div class="footer">
+<span>DARSA LAB · SIMULASI EDUKATIF</span>
+<span>AMATI · ANALISIS · SIMPULKAN</span>
+</div>
+
+</main>
+</div>
+
+<script>
+
+// ============================================
+// BAHASA / LANGUAGE SWITCHER
+// ============================================
+const translations = {
+  "SISTEM RESPONS KIMIA": "CHEMICAL RESPONSE SYSTEM",
+  "SISTEM SIAGA": "SYSTEM STANDBY",
+  "MISI AKTIF": "MISSION ACTIVE",
+  "Penghitung waktu sedang berjalan.": "Emergency countdown is in progress.",
+  "DIBUAT OLEH GENTLE": "CREATED BY GENTLE",
+  "KENDALI MISI": "MISSION CONTROL",
+  "PROGRES MISI": "MISSION PROGRESS",
+  "Pengarahan": "Briefing",
+  "Laporan darurat": "Emergency report",
+  "Tanda tangan yang hilang": "The missing signature",
+  "Kromatografi kertas": "Paper chromatography",
+  "Pesan rahasia": "Secret message",
+  "Tinta tak terlihat": "Invisible ink",
+  "Pendeteksi warna": "Colour detector",
+  "Indikator kubis ungu": "Red cabbage indicator",
+  "Basis data bukti": "Evidence database",
+  "Petunjuk terkumpul": "Collected clues",
+  "Akses darurat": "Emergency access",
+  "Kode akhir": "Final code",
+  "WAKTU MISI TERSISA": "MISSION TIME REMAINING",
+  "Penghitung waktu dimulai saat misi dimulai.": "Timer starts when the mission begins.",
+  "MODE PELATIHAN · Ikuti arahan fasilitator stan. Lakukan percobaan langsung di stasiun yang telah ditentukan.": "TRAINING MODE · Follow the station facilitator’s instructions. Carry out the experiments at the designated stations.",
+  "Tanggap darurat / Kasus DL-2045": "Emergency response / Case DL-2045",
+  "Tiga eksperimen. Tiga teka-teki bukti. Satu laboratorium terkunci. Analisis hasil percobaan, pecahkan pesan tersembunyi, dan kumpulkan kembali bukti sebelum waktu habis.": "Three experiments. Three evidence puzzles. One locked laboratory. Analyse the results, solve the hidden message, and recover the evidence before time runs out.",
+  "TRANSMISI SISTEM MASUK · 07:00:13": "INCOMING SYSTEM TRANSMISSION · 07:00:13",
+  "⚠ PENGUNCIAN DIAKTIFKAN": "⚠ LOCKDOWN ACTIVATED",
+  "Pada pukul 09.42, Darsa Lab mendeteksi kejadian tak terduga pada tahap akhir sebuah proyek penelitian. Sistem keamanan pusat mengisolasi laboratorium dan mengenkripsi kode akses daruratnya.": "At 09:42, Darsa Lab detected an unexpected event during the final stage of a research project. The central security system isolated the laboratory and encrypted its emergency access code.",
+  "Kepala ilmuwan meninggalkan tiga petunjuk sebelum sistem berhenti beroperasi. Setiap petunjuk dapat diselidiki melalui teknik kimia yang berbeda.": "The chief scientist left three clues before the system shut down. Each clue can be investigated using a different chemical technique.",
+  "PESAN DARI KEPALA ILMUWAN": "MESSAGE FROM THE CHIEF SCIENTIST",
+  "\"Jangan menebak. Amati dengan teliti, periksa buktinya, dan biarkan ilmu kimia mengungkap jawabannya.\"": "“Do not guess. Observe carefully, examine the evidence, and let chemistry reveal the answer.”",
+  "PERANMU": "YOUR ROLE",
+  "Tim Kimia Tanggap Darurat": "Emergency Chemistry Team",
+  "Selidiki ketiga stasiun dan masukkan hasil pengamatan yang benar ke komputer.": "Investigate all three stations and enter your correct observations into the computer.",
+  "TUJUANMU": "YOUR OBJECTIVE",
+  "Temukan kode akses": "Recover the access code",
+  "Setiap stasiun memiliki tantangan analisis bukti bertahap. Selesaikan ketiganya untuk memperoleh angka akses dan memulihkan sistem.": "Each station contains a step-by-step evidence challenge. Complete all three to recover the access digits and restore the system.",
+  "Sebelum memulai": "Before you begin",
+  "Kerjakan misi secara berurutan.": "Complete the missions in order.",
+  "Lakukan percobaan langsung di stan yang sesuai.": "Carry out the experiment at the matching station.",
+  "Gunakan situs ini untuk mengirim hasil pengamatan atau jawabanmu.": "Use this website to submit your observations or answers.",
+  "Tanyakan kepada fasilitator sebelum menangani bahan laboratorium.": "Ask the facilitator before handling any laboratory materials.",
+  "Pemberitahuan keselamatan: Gunakan hanya bahan yang telah disiapkan fasilitator. Ikuti petunjuk stasiun, jangan mencicipi sampel, dan jangan menangani bahan kimia tanpa arahan fasilitator.": "Safety notice: Use only materials prepared by the facilitator. Follow station instructions, never taste samples, and do not handle chemicals without the facilitator’s direction.",
+  "MULAI MISI →": "START MISSION →",
+  "Lihat petunjuk terlebih dahulu": "View instructions first",
+  "Misi 01 / Analisis bukti": "Mission 01 / Evidence analysis",
+  "TANDA TANGAN YANG HILANG": "THE MISSING SIGNATURE",
+  "KROMATOGRAFI KERTAS": "PAPER CHROMATOGRAPHY",
+  "Sebuah tanda tangan spidol ditemukan pada berkas penelitian rahasia. Kromatografi kertas memisahkan tinta menjadi pigmen berwarna. Tentukan tinta pembanding yang memiliki pola pigmen yang sama.": "A marker signature was found on a confidential research file. Paper chromatography separates ink into coloured pigments. Identify the reference ink with the matching pigment pattern.",
+  "GAMBAR BUKTI · PERBANDINGAN TINTA": "EVIDENCE IMAGE · INK COMPARISON",
+  "TINTA A": "INK A",
+  "TINTA B": "INK B",
+  "TINTA C": "INK C",
+  "Pemindai menemukan tiga kemungkinan tinta. Jangan hanya mengandalkan label—catat urutan warna dari sampel bukti dan cocokkan setiap pita warna.": "The scanner found three possible inks. Do not rely on the labels alone—record the colour sequence from the evidence sample and match each band.",
+  "PEMINDAI FORENSIK · TUGAS 1/3": "FORENSIC SCANNER · TASK 1/3",
+  "Susun kembali pola pigmen": "Reconstruct the pigment pattern",
+  "3 PITA UNTUK DIPERIKSA": "3 BANDS TO CHECK",
+  "Catat pita sampel dari atas ke bawah, lalu tentukan tinta pembanding yang cocok.": "Record the sample bands from top to bottom, then identify the matching reference ink.",
+  "PITA PALING ATAS": "TOP BAND",
+  "PITA TENGAH": "MIDDLE BAND",
+  "PITA PALING BAWAH": "BOTTOM BAND",
+  "Pilih warna": "Choose a colour",
+  "Biru": "Blue",
+  "Oranye": "Orange",
+  "Ungu": "Purple",
+  "Hijau": "Green",
+  "Kuning": "Yellow",
+  "TINTA PEMBANDING MANA YANG COCOK?": "WHICH REFERENCE INK MATCHES?",
+  "Pilih hasil analisismu...": "Select your analysis...",
+  "Tinta A": "Ink A",
+  "Tinta B": "Ink B",
+  "Tinta C": "Ink C",
+  "Tampilkan petunjuk analisis": "Show analysis hint",
+  "Bandingkan ketiga pita secara berurutan. Pola yang benar memiliki warna biru di atas, oranye di tengah, dan ungu di bawah.": "Compare the three bands in order. The correct pattern has blue at the top, orange in the middle, and purple at the bottom.",
+  "Petunjuk percobaan": "Experiment instructions",
+  "Buat titik tinta kecil di dekat garis pensil pada kertas kromatografi.": "Place a small ink spot near the pencil baseline on the chromatography paper.",
+  "Letakkan kertas pada sedikit air dengan posisi titik tinta tetap berada di atas permukaan air.": "Place the paper in a shallow layer of water, keeping the ink spot above the water surface.",
+  "Biarkan pelarut bergerak naik melalui kertas.": "Allow the solvent to travel up the paper.",
+  "Bandingkan pita pigmen yang terpisah dengan pita pembanding.": "Compare the separated pigment bands with the reference strips.",
+  "Hal yang perlu diamati": "What to observe",
+  "Tinta spidol dapat mengandung beberapa zat pewarna. Dalam kromatografi, pigmen-pigmen tersebut terpisah karena interaksinya dengan kertas dan pelarut berbeda.": "Marker ink can contain several dyes. In chromatography, these pigments separate because they interact differently with the paper and solvent.",
+  "Perhatikan jumlah, warna, dan posisi relatif pita pigmen. Tinta A seharusnya menunjukkan warna biru, oranye, dan ungu.": "Look at the number, colour, and relative positions of the pigment bands. Ink A should show blue, orange, and purple.",
+  "KIRIM BUKTI": "SUBMIT EVIDENCE",
+  "Misi 02 / Deteksi kimia": "Mission 02 / Chemical detection",
+  "PESAN TERSEMBUNYI": "THE HIDDEN MESSAGE",
+  "TINTA TAK TERLIHAT": "INVISIBLE INK",
+  "Catatan dari kepala ilmuwan tampak kosong. Gunakan kertas indikator yang telah disiapkan untuk mengungkap pesan tersembunyi.": "A note from the chief scientist appears blank. Use the prepared indicator paper to reveal the hidden message.",
+  "DOKUMEN TEMUAN · PESAN TERUNGKAP": "RECOVERED DOCUMENT · MESSAGE REVEALED",
+  "KODE AKSES: 2": "ACCESS CODE: 2",
+  "Ilustrasi hasil yang diharapkan. Pesan sebenarnya akan terlihat pada kertas yang disiapkan di stan.": "Illustration of the expected result. The actual message will appear on the paper prepared at the station.",
+  "Ambil kertas indikator kunyit yang telah disiapkan dari fasilitator.": "Collect the turmeric indicator paper prepared by the facilitator.",
+  "Gunakan alat yang disediakan untuk mengungkap tulisan tersembunyi sesuai arahan fasilitator.": "Use the provided tool to reveal the hidden writing, following the facilitator’s instructions.",
+  "Amati perubahan warna dan baca pesan yang terungkap.": "Observe the colour change and read the revealed message.",
+  "Catatan kimia": "Chemistry notes",
+  "Kunyit mengandung kurkumin, pigmen alami yang berubah warna dalam kondisi basa.": "Turmeric contains curcumin, a natural pigment that changes colour under alkaline conditions.",
+  "Latar kuning dapat memperlihatkan tulisan berwarna merah kecokelatan pada bagian yang terkena larutan basa.": "The yellow background can reveal reddish-brown writing where the alkaline solution was applied.",
+  "ANALISIS BUKTI KIMIA · TUGAS 2/3": "CHEMICAL EVIDENCE ANALYSIS · TASK 2/3",
+  "Hasil mana yang menunjukkan tulisan tersembunyi?": "Which result reveals the hidden writing?",
+  "Kepala ilmuwan menguji tiga kemungkinan hasil warna. Bandingkan hasil pada kertas indikator dan pilih hasil yang sesuai dengan reaksi kunyit dalam larutan basa.": "The chief scientist tested three possible colour outcomes. Compare the indicator-paper results and choose the one that matches turmeric reacting with an alkaline solution.",
+  "PESAN RAHASIA": "SECRET MESSAGE",
+  "HASIL A · Kuning + tulisan merah kecokelatan": "RESULT A · Yellow + reddish-brown writing",
+  "Latar tetap kuning, sedangkan bagian tulisan berubah warna.": "The background stays yellow while the writing changes colour.",
+  "HASIL B · Seluruh kertas merah kecokelatan": "RESULT B · Entire paper reddish-brown",
+  "Seluruh kertas indikator berubah menjadi warna yang sama.": "The entire indicator paper changes to the same colour.",
+  "HASIL C · Kuning + tulisan biru": "RESULT C · Yellow + blue writing",
+  "Tulisan tampak biru di atas kertas kuning.": "The writing appears blue on yellow paper.",
+  "Tampilkan petunjuk kimia": "Show chemistry hint",
+  "Kunyit mengandung kurkumin. Dalam kondisi basa, pigmen kuning berubah menjadi merah kecokelatan. Perubahan warna hanya muncul pada bagian kertas yang terkena larutan basa.": "Turmeric contains curcumin. Under alkaline conditions, the yellow pigment turns reddish-brown. The colour change appears only where the alkaline solution touches the paper.",
+  "Belum ada hasil yang dipilih.": "No result selected yet.",
+  "Angka berapa yang terungkap dari pesan tersembunyi?": "What digit is revealed by the hidden message?",
+  "Pilih angka yang terungkap...": "Select the revealed digit...",
+  "Misi 03 / Deteksi pH alami": "Mission 03 / Natural pH detection",
+  "PENDETEKSI WARNA": "THE COLOUR DETECTOR",
+  "INDIKATOR KUBIS UNGU": "RED CABBAGE INDICATOR",
+  "Kepala ilmuwan meninggalkan tiga sampel misterius di laboratorium. Gunakan indikator alami dari kubis ungu untuk menguji susu, air lemon, dan air netral. Tentukan sampel yang paling asam untuk memperoleh angka terakhir.": "The chief scientist left three mystery samples in the laboratory. Use a natural red cabbage indicator to test milk, lemon juice, and neutral water. Identify the most acidic sample to recover the final digit.",
+  "UJI SAMPEL · INDIKATOR KUBIS UNGU": "SAMPLE TEST · RED CABBAGE INDICATOR",
+  "SUSU": "MILK",
+  "AIR LEMON": "LEMON JUICE",
+  "AIR NETRAL": "NEUTRAL WATER",
+  "Panduan warna": "Colour guide",
+  "Kubis ungu mengandung antosianin, pigmen yang berubah warna bergantung pada pH larutan.": "Red cabbage contains anthocyanins, pigments that change colour depending on the pH of a solution.",
+  "Sampel asam cenderung berubah menjadi merah muda atau merah, sedangkan sampel netral biasanya tetap ungu.": "Acidic samples tend to turn pink or red, while neutral samples usually remain purple.",
+  "Ambil tiga gelas sampel berlabel dari fasilitator.": "Collect the three labelled sample cups from the facilitator.",
+  "Tambahkan indikator kubis ungu yang telah disiapkan sesuai petunjuk.": "Add the prepared red cabbage indicator as instructed.",
+  "Amati warna yang dihasilkan pada setiap sampel.": "Observe the colour produced in each sample.",
+  "Bandingkan warnanya dan tentukan sampel yang paling asam.": "Compare the colours and identify the most acidic sample.",
+  "Kubis ungu mengandung pigmen antosianin. Struktur molekulnya berubah dalam kondisi pH yang berbeda sehingga menghasilkan perubahan warna yang dapat diamati.": "Red cabbage contains anthocyanin pigments. Their molecular structure changes at different pH conditions, producing visible colour changes.",
+  "Air lemon lebih asam daripada susu, sedangkan air netral memiliki pH sekitar 7.": "Lemon juice is more acidic than milk, while neutral water has a pH of approximately 7.",
+  "PERINGATAN KESELAMATAN:": "SAFETY WARNING:",
+  "Gunakan hanya sampel dan indikator yang telah disiapkan fasilitator. Jangan mencicipi cairan. Jauhkan sampel dari mata dan cuci tangan setelah kegiatan.": "Use only samples and indicator prepared by the facilitator. Do not taste the liquids. Keep samples away from your eyes and wash your hands after the activity.",
+  "ANALISIS SAMPEL · TUGAS 3/3": "SAMPLE ANALYSIS · TASK 3/3",
+  "Susun kembali urutan sampel": "Reconstruct the sample order",
+  "Catatan keamanan telah mengacak urutan sampel. Susun ketiganya dari yang paling tidak asam hingga yang paling asam berdasarkan warna indikator yang kamu amati.": "The sample records have been shuffled. Arrange all three from least acidic to most acidic based on the indicator colours you observed.",
+  "1 · PALING TIDAK ASAM": "1 · LEAST ACIDIC",
+  "2 · TENGAH": "2 · MIDDLE",
+  "3 · PALING ASAM": "3 · MOST ACIDIC",
+  "Pilih sampel": "Choose a sample",
+  "Mulailah dengan sampel yang warnanya paling mendekati ungu, lanjutkan dengan sampel yang berubah sedikit, dan akhiri dengan sampel yang menunjukkan perubahan merah muda/merah paling kuat.": "Start with the sample that stays closest to purple, continue with the sample that changes slightly, and finish with the sample showing the strongest pink/red shift.",
+  "KIRIM HASIL PENGAMATAN": "SUBMIT OBSERVATIONS",
+  "Arsip pusat / Arsip bukti": "Central archive / Evidence archive",
+  "BASIS DATA BUKTI": "EVIDENCE DATABASE",
+  "Setiap penyelidikan yang selesai akan disimpan di sini. Kumpulkan ketiga angka rahasia untuk meminta akses darurat.": "Each completed investigation is stored here. Collect all three secret digits to request emergency access.",
+  "STATUS KEAMANAN": "SECURITY STATUS",
+  "0 dari 3 petunjuk ditemukan": "0 of 3 clues recovered",
+  "Selesaikan ketiga misi untuk membuka panel akses darurat.": "Complete all three missions to unlock the emergency access panel.",
+  "Selesaikan misi yang tersisa untuk membuka panel akses darurat.": "Complete the remaining missions to unlock the emergency access panel.",
+  "Semua bukti telah ditemukan. Akses darurat kini tersedia.": "All evidence recovered. Emergency access is now available.",
+  "BUKA AKSES DARURAT →": "OPEN EMERGENCY ACCESS →",
+  "Terminal keamanan / Tahap akhir": "Security terminal / Final stage",
+  "AKSES DARURAT": "EMERGENCY ACCESS",
+  "Masukkan kode tiga angka yang diperoleh dari eksperimenmu. Sistem akan memverifikasi bukti yang kamu kumpulkan.": "Enter the three-digit code recovered from your experiments. The system will verify the evidence you collected.",
+  "DARSA LAB · TERMINAL AKSES TERENKRIPSI": "DARSA LAB · ENCRYPTED ACCESS TERMINAL",
+  "Angka pertama": "First digit",
+  "Angka kedua": "Second digit",
+  "Angka ketiga": "Third digit",
+  "Masukkan satu angka di setiap kotak. Selesaikan ketiga misi terlebih dahulu.": "Enter one digit in each box. Complete all three missions first.",
+  "VERIFIKASI KODE AKSES": "VERIFY ACCESS CODE",
+  "Periksa bukti": "Review evidence",
+  "Protokol darurat selesai": "Emergency protocol complete",
+  "LABORATORIUM DIPULIHKAN.": "LAB RESTORED.",
+  "Tiga penyelidikan selesai. Laboratorium berhasil dipulihkan. Perjalanan ilmiahmu telah tercatat.": "Three investigations completed. The laboratory has been restored. Your scientific journey has been recorded.",
+  "SERTIFIKAT PENCAPAIAN RESMI": "OFFICIAL CERTIFICATE OF ACHIEVEMENT",
+  "ELIT KIMIA": "CHEMISTRY ELITE",
+  "Sertifikat ini diberikan kepada": "This certificate is awarded to",
+  "Masukkan nama peserta / tim": "Enter participant / team name",
+  "Nama peserta atau tim": "Participant or team name",
+  "Atas keberhasilan menyelesaikan ketiga penyelidikan kimia dan memulihkan sistem keamanan Darsa Lab.": "For successfully completing all three chemistry investigations and restoring the Darsa Lab security system.",
+  "WAKTU PENYELESAIAN": "COMPLETION TIME",
+  "REKOR WAKTU": "TIME RECORD",
+  "WAKTU TERBAIK": "BEST TIME",
+  "EKSPERIMEN": "EXPERIMENTS",
+  "STATUS MISI": "MISSION STATUS",
+  "BERHASIL": "SUCCESS",
+  "ID SERTIFIKAT:": "CERTIFICATE ID:",
+  "DARSA LAB · PROGRAM PENYELIDIKAN ILMIAH": "DARSA LAB · SCIENTIFIC INVESTIGATION PROGRAM",
+  "AMATI · ANALISIS · SIMPULKAN": "OBSERVE · ANALYSE · CONCLUDE",
+  "CETAK SERTIFIKAT": "PRINT CERTIFICATE",
+  "TIM BARU": "NEW TEAM",
+  "DARSA LAB · SIMULASI EDUKATIF": "DARSA LAB · EDUCATIONAL SIMULATION",
+  "Waktu habis — lanjutkan dan selesaikan penyelidikan.": "Time is up — continue and complete the investigation.",
+  "WAKTU HABIS · PELATIHAN BERLANJUT": "TIME EXPIRED · TRAINING CONTINUES",
+  "Hasil A dipilih: kertas kuning dengan tulisan merah kecokelatan.": "Result A selected: yellow paper with reddish-brown writing.",
+  "Hasil B dipilih: seluruh kertas berwarna merah kecokelatan.": "Result B selected: the entire paper is reddish-brown.",
+  "Hasil C dipilih: kertas kuning dengan tulisan biru.": "Result C selected: yellow paper with blue writing.",
+  "POLA TERKONFIRMASI. Urutan warna yang kamu catat cocok dengan Tinta A: biru, oranye, ungu. Angka bukti ditemukan: 4.": "PATTERN VERIFIED. Your recorded colour sequence matches Ink A: blue, orange, purple. Evidence digit recovered: 4.",
+  "BUKTI BELUM COCOK. Periksa ketiga posisi dari atas ke bawah, lalu pilih pita pembanding dengan pola yang sama.": "EVIDENCE DOES NOT MATCH. Check all three positions from top to bottom, then select the reference strip with the same pattern.",
+  "BUKTI KIMIA TERVERIFIKASI. Kamu mengidentifikasi perubahan warna menjadi merah kecokelatan akibat larutan basa. Pesan yang terungkap memberikan angka akses 2.": "CHEMICAL EVIDENCE VERIFIED. You identified the reddish-brown colour change caused by an alkaline solution. The revealed message gives access digit 2.",
+  "PENYELIDIKAN BELUM LENGKAP. Pilih hasil yang menunjukkan kertas kunyit kuning dengan tulisan merah kecokelatan, lalu masukkan angka yang terungkap dari eksperimenmu.": "INVESTIGATION INCOMPLETE. Select the result showing yellow turmeric paper with reddish-brown writing, then enter the digit revealed by your experiment.",
+  "URUTAN SAMPEL TERVERIFIKASI. Hasil pengamatanmu menempatkan air netral pertama, susu kedua, dan air lemon terakhir. Angka bukti terakhir ditemukan: 7.": "SAMPLE ORDER VERIFIED. Your observations place neutral water first, milk second, and lemon juice last. Final evidence digit recovered: 7.",
+  "URUTAN BELUM TERVERIFIKASI. Susun ketiga sampel yang berbeda dari yang paling tidak asam hingga yang paling asam berdasarkan warna yang kamu amati.": "ORDER NOT VERIFIED. Arrange the three different samples from least acidic to most acidic based on the colours you observed.",
+  "AKSES DITOLAK. Selesaikan ketiga misi terlebih dahulu.": "ACCESS DENIED. Complete all three missions first.",
+  "Masukkan ketiga angka.": "Enter all three digits.",
+  "DARSA LAB DIPULIHKAN": "DARSA LAB RESTORED",
+  "REKOR BARU!": "NEW RECORD!",
+  "AKSES DITOLAK. Kode tidak cocok dengan bukti yang ditemukan. Periksa kembali basis data bukti.": "ACCESS DENIED. The code does not match the recovered evidence. Check the evidence database again.",
+  "Masukkan nama peserta atau tim terlebih dahulu.": "Enter the participant or team name first.",
+  "Bukti belum diverifikasi": "Evidence not yet verified",
+  "DITEMUKAN": "RECOVERED",
+  "TERKUNCI": "LOCKED",
+  "Kromatografi kertas · Kecocokan tinta": "Paper chromatography · Ink match",
+  "Tinta tak terlihat · Angka tersembunyi": "Invisible ink · Hidden digit",
+  "Indikator kubis ungu · Identifikasi pH": "Red cabbage indicator · pH identification",
+  "Tinta A cocok · Angka 4": "Ink A matched · Digit 4",
+  "Mekanisme perubahan warna kunyit teridentifikasi · Angka 2": "Turmeric colour-change mechanism identified · Digit 2",
+  "Sampel paling asam teridentifikasi · Angka 7": "Most acidic sample identified · Digit 7"
+};
+let currentLanguage = "id";
+const reverseTranslations = Object.fromEntries(Object.entries(translations).map(([id,en]) => [en,id]));
+
+function translateText(value) {
+  const key = value.replace(/\s+/g," ").trim();
+  if (currentLanguage === "en") return translations[key] || value;
+  return reverseTranslations[key] || value;
+}
+
+function applyLanguage() {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const original = node.nodeValue;
+    if (!original.trim()) return;
+    const leading = original.match(/^\s*/)[0];
+    const trailing = original.match(/\s*$/)[0];
+    const key = original.replace(/\s+/g," ").trim();
+    const translated = currentLanguage === "en" ? (translations[key] || key) : (reverseTranslations[key] || key);
+    if (translated !== key) node.nodeValue = leading + translated + trailing;
+  });
+
+  const attrs = ["placeholder", "aria-label", "title"];
+  document.querySelectorAll("input,button,select,[aria-label],[title]").forEach(el => {
+    attrs.forEach(attr => {
+      if (!el.hasAttribute(attr)) return;
+      const value = el.getAttribute(attr);
+      const translated = translateText(value);
+      if (translated !== value) el.setAttribute(attr, translated);
+    });
+  });
+
+  document.documentElement.lang = currentLanguage;
+  document.title = "Darsa Lab | SAVE THE LAB";
+  const toggle = document.getElementById("languageToggle");
+  if (toggle) toggle.textContent = currentLanguage === "id" ? "ENGLISH" : "BAHASA INDONESIA";
+}
+
+function toggleLanguage() {
+  currentLanguage = currentLanguage === "id" ? "en" : "id";
+  applyLanguage();
+  updateEvidence();
+  applyLanguage();
+}
+
+// ============================================
+// DARSA LAB CONFIGURATION
+// ============================================
+
+const CODE = ["4","2","7"];
+const completed = [false,false,false];
+const TOTAL_TIME = 1200;
+
+let started = false;
+let remaining = TOTAL_TIME;
+let missionInterval = null;
+
+// ============================================
+// TIMER FUNCTIONS
+// ============================================
+
+function formatTime(seconds) {
+const m = String(Math.floor(seconds / 60)).padStart(2,"0");
+const s = String(seconds % 60).padStart(2,"0");
+return m + ":" + s;
+}
+
+function renderTimer() {
+const el = document.getElementById("timer");
+el.textContent = formatTime(remaining);
+
+el.classList.toggle(
+"warning",
+remaining <= 60 && remaining > 0
+);
+
+el.classList.toggle(
+"expired",
+remaining === 0
+);
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+
+function showPage(name) {
+
+document.querySelectorAll(".page").forEach(p => {
+p.classList.add("hidden");
+});
+
+const target = document.getElementById("page-" + name);
+
+if (target) {
+target.classList.remove("hidden");
+}
+
+document.querySelectorAll(".navitem").forEach(b => {
+
+b.classList.toggle(
+"active",
+b.dataset.page === name
+);
+
+const idx = ["m1","m2","m3"].indexOf(b.dataset.page);
+
+if (idx >= 0) {
+b.classList.toggle("done",completed[idx]);
+}
+
+});
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+updateEvidence();
+}
+
+document.querySelectorAll(".navitem").forEach(b => {
+b.addEventListener("click",() => {
+showPage(b.dataset.page);
+});
+});
+
+// ============================================
+// START MISSION
+// ============================================
+
+function startMission() {
+
+if (started) return;
+
+started = true;
+
+document.getElementById("systemStatus").textContent =
+"MISSION ACTIVE";
+applyLanguage();
+
+document.getElementById("timerHint").textContent =
+"Penghitung waktu sedang berjalan.";
+applyLanguage();
+
+missionInterval = setInterval(() => {
+
+if (remaining > 0) {
+
+remaining--;
+renderTimer();
+
+} else {
+
+clearInterval(missionInterval);
+
+document.getElementById("timerHint").textContent =
+"Waktu habis — lanjutkan dan selesaikan penyelidikan.";
+applyLanguage();
+
+document.getElementById("systemStatus").textContent =
+"WAKTU HABIS · PELATIHAN BERLANJUT";
+applyLanguage();
+
+}
+
+},1000);
+
+showPage("m1");
+}
+
+document.getElementById("startBtn").addEventListener(
+"click",startMission
+);
+
+document.getElementById("skipBriefBtn").addEventListener(
+"click",() => showPage("m1")
+);
+
+// ============================================
+// INVESTIGATION HINTS
+// ============================================
+
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  if (hint) hint.classList.toggle("revealed");
+}
+
+// ============================================
+// FEEDBACK
+// ============================================
+
+function showFeedback(id,good,message) {
+
+const el = document.getElementById(id);
+
+el.textContent = message;
+
+el.className =
+"feedback show " + (good ? "good" : "bad");
+applyLanguage();
+}
+
+// ============================================
+// TURMERIC INVISIBLE-INK EVIDENCE SELECTOR
+// ============================================
+
+let selectedTurmericResult = "";
+
+function selectTurmericOption(button) {
+  selectedTurmericResult = button.dataset.turmeric || "";
+
+  document.querySelectorAll(".turmeric-option").forEach(option => {
+    const selected = option === button;
+    option.classList.toggle("selected", selected);
+    option.setAttribute("aria-pressed", selected ? "true" : "false");
+  });
+
+  const labels = {
+    alkaline: "Hasil A dipilih: kertas kuning dengan tulisan merah kecokelatan.",
+    acidic: "Hasil B dipilih: seluruh kertas berwarna merah kecokelatan.",
+    neutral: "Hasil C dipilih: kertas kuning dengan tulisan biru."
+  };
+
+  document.getElementById("turmericSelectionStatus").textContent =
+    labels[selectedTurmericResult] || "Belum ada hasil yang dipilih.";
+  applyLanguage();
+}
+
+// ============================================
+// SUBMIT MISSIONS
+// ============================================
+
+function submitMission(n) {
+
+let correct = false;
+let msg = "";
+
+// MISSION 01: KROMATOGRAFI KERTAS
+
+if (n === 1) {
+
+const v = document.getElementById("inkAnswer").value;
+const top = document.getElementById("bandTop").value;
+const middle = document.getElementById("bandMiddle").value;
+const bottom = document.getElementById("bandBottom").value;
+const sequenceCorrect = top === "Biru" && middle === "Oranye" && bottom === "Ungu";
+correct = v === "A" && sequenceCorrect;
+
+msg = correct
+? "POLA TERKONFIRMASI. Urutan warna yang kamu catat cocok dengan Tinta A: biru, oranye, ungu. Angka bukti ditemukan: 4."
+: "BUKTI BELUM COCOK. Periksa ketiga posisi dari atas ke bawah, lalu pilih pita pembanding dengan pola yang sama.";
+
+}
+
+// MISSION 02: TINTA TAK TERLIHAT
+
+if (n === 2) {
+
+const v = document.getElementById("messageAnswer").value;
+correct = v === "2" && selectedTurmericResult === "alkaline";
+
+msg = correct
+? "BUKTI KIMIA TERVERIFIKASI. Kamu mengidentifikasi perubahan warna menjadi merah kecokelatan akibat larutan basa. Pesan yang terungkap memberikan angka akses 2."
+: "PENYELIDIKAN BELUM LENGKAP. Pilih hasil yang menunjukkan kertas kunyit kuning dengan tulisan merah kecokelatan, lalu masukkan angka yang terungkap dari eksperimenmu.";
+
+}
+
+// MISSION 03: INDIKATOR KUBIS UNGU
+
+if (n === 3) {
+
+const first = document.getElementById("cabbageFirst").value;
+const second = document.getElementById("cabbageSecond").value;
+const third = document.getElementById("cabbageThird").value;
+const unique = new Set([first,second,third]).size === 3;
+correct = unique && first === "water" && second === "milk" && third === "lemon";
+
+msg = correct
+? "URUTAN SAMPEL TERVERIFIKASI. Hasil pengamatanmu menempatkan air netral pertama, susu kedua, dan air lemon terakhir. Angka bukti terakhir ditemukan: 7."
+: "URUTAN BELUM TERVERIFIKASI. Susun ketiga sampel yang berbeda dari yang paling tidak asam hingga yang paling asam berdasarkan warna yang kamu amati.";
+
+}
+
+if (correct) {
+
+completed[n-1] = true;
+
+showFeedback("feedback"+n,true,msg);
+
+updateEvidence();
+
+document.querySelectorAll(".navitem").forEach(b => {
+
+const i = ["m1","m2","m3"].indexOf(b.dataset.page);
+
+if (i >= 0) {
+b.classList.toggle("done",completed[i]);
+}
+
+});
+
+} else {
+
+showFeedback("feedback"+n,false,msg);
+
+}
+
+}
+
+// ============================================
+// BASIS DATA BUKTI
+// ============================================
+
+function updateEvidence() {
+
+const count = completed.filter(Boolean).length;
+
+document.getElementById("progressText").textContent =
+count + " / 3";
+
+document.getElementById("progressFill").style.width =
+(count / 3 * 100) + "%";
+
+document.getElementById("evidenceCount").textContent =
+count + " of 3 clues recovered";
+
+document.getElementById("evidenceFill").style.width =
+(count / 3 * 100) + "%";
+
+document.getElementById("evidenceHint").textContent =
+count === 3
+? "Semua bukti telah ditemukan. Akses darurat kini tersedia."
+: "Selesaikan misi yang tersisa untuk membuka panel akses darurat.";
+
+const names = [
+"Kromatografi kertas · Kecocokan tinta",
+"Tinta tak terlihat · Angka tersembunyi",
+"Indikator kubis ungu · Identifikasi pH"
+];
+
+const desc = [
+"Tinta A cocok · Angka 4",
+"Mekanisme perubahan warna kunyit teridentifikasi · Angka 2",
+"Sampel paling asam teridentifikasi · Angka 7"
+];
+
+document.getElementById("evidenceList").innerHTML =
+
+names.map((name,i) => `
+
+<div class="evidence ${completed[i] ? "" : "locked"}">
+
+<div class="evidence-icon">
+${completed[i] ? "✓" : "?"}
+</div>
+
+<div style="flex:1">
+<b>${name}</b>
+<small>
+${completed[i] ? desc[i] : "Bukti belum diverifikasi"}
+</small>
+</div>
+
+<span class="pill ${completed[i] ? "green" : ""}">
+${completed[i] ? "DITEMUKAN" : "TERKUNCI"}
+</span>
+
+</div>
+
+`).join("");
+
+document.getElementById("toAccessBtn").disabled =
+count !== 3;
+
+document.getElementById("unlockBtn").disabled =
+count !== 3;
+
+applyLanguage();
+
+}
+
+// ============================================
+// AKSES DARURAT
+// ============================================
+
+function unlockLab() {
+
+if (!completed.every(Boolean)) {
+
+showFeedback(
+"accessFeedback",
+false,
+"AKSES DITOLAK. Selesaikan ketiga misi terlebih dahulu."
+);
+
+return;
+}
+
+const entered = [1,2,3].map(i => {
+return document.getElementById("d"+i).value;
+});
+
+if (entered.some(x => !x)) {
+
+showFeedback(
+"accessFeedback",
+false,
+"Masukkan ketiga angka."
+);
+
+return;
+}
+
+if (entered.join("") === CODE.join("")) {
+
+clearInterval(missionInterval);
+
+document.getElementById("systemStatus").textContent =
+"DARSA LAB DIPULIHKAN";
+applyLanguage();
+
+const elapsed = TOTAL_TIME - remaining;
+const completion = formatTime(elapsed);
+
+document.getElementById("finalTime").textContent =
+completion;
+
+let previousRecord = null;
+
+try {
+
+previousRecord = Number(
+localStorage.getItem("darsaBestTime")
+);
+
+if (!Number.isFinite(previousRecord) || previousRecord <= 0) {
+previousRecord = null;
+}
+
+} catch(e) {
+
+previousRecord = null;
+
+}
+
+const isNewRecord =
+previousRecord === null || elapsed < previousRecord;
+
+if (isNewRecord) {
+
+try {
+localStorage.setItem("darsaBestTime",String(elapsed));
+} catch(e) {}
+
+}
+
+const bestTime = isNewRecord
+? elapsed
+: previousRecord;
+
+document.getElementById("speedRecord").textContent =
+formatTime(bestTime);
+
+document.getElementById("recordLabel").textContent =
+isNewRecord ? "REKOR BARU!" : "WAKTU TERBAIK";
+
+document.getElementById("certificateID").textContent =
+"DL-" + Date.now().toString(36).toUpperCase();
+
+showPage("success");
+
+} else {
+
+showFeedback(
+"accessFeedback",
+false,
+"AKSES DITOLAK. Kode tidak cocok dengan bukti yang ditemukan. Periksa kembali basis data bukti."
+);
+
+}
+
+}
+
+// ============================================
+// THREE-DIGIT INPUT
+// ============================================
+
+["d1","d2","d3"].forEach((id,i) => {
+
+document.getElementById(id).addEventListener("input",e => {
+
+e.target.value = e.target.value
+.replace(/[^0-9]/g,"")
+.slice(0,1);
+
+if (e.target.value && i < 2) {
+document.getElementById("d"+(i+2)).focus();
+}
+
+});
+
+});
+
+// ============================================
+// CETAK SERTIFIKAT
+// ============================================
+
+function printCertificate() {
+
+const name = document.getElementById("participantName").value.trim();
+
+if (!name) {
+
+alert("Masukkan nama peserta atau tim terlebih dahulu.");
+
+document.getElementById("participantName").focus();
+
+return;
+
+}
+
+document.body.classList.add("print-certificate");
+
+window.print();
+
+document.body.classList.remove("print-certificate");
+
+}
+
+// ============================================
+// RESET FOR TIM BARU
+// ============================================
+
+function resetMission() {
+
+clearInterval(missionInterval);
+
+started = false;
+remaining = TOTAL_TIME;
+
+completed.fill(false);
+selectedTurmericResult = "";
+document.querySelectorAll(".turmeric-option").forEach(option => {
+  option.classList.remove("selected");
+  option.setAttribute("aria-pressed", "false");
+});
+document.getElementById("turmericSelectionStatus").textContent = "Belum ada hasil yang dipilih.";
+
+[
+"inkAnswer",
+"bandTop",
+"bandMiddle",
+"bandBottom",
+"messageAnswer",
+"cabbageFirst",
+"cabbageSecond",
+"cabbageThird"
+].forEach(id => {
+
+document.getElementById(id).value = "";
+
+});
+
+["d1","d2","d3"].forEach(id => {
+
+document.getElementById(id).value = "";
+
+});
+
+document.getElementById("participantName").value = "";
+
+document.querySelectorAll(".feedback").forEach(e => {
+  e.className = "feedback";
+  e.textContent = "";
+});
+document.querySelectorAll(".hint-text").forEach(e => e.classList.remove("revealed"));
+
+document.getElementById("systemStatus").textContent =
+"SISTEM SIAGA";
+
+document.getElementById("timerHint").textContent =
+"Penghitung waktu dimulai saat misi dimulai.";
+
+renderTimer();
+updateEvidence();
+showPage("briefing");
+applyLanguage();
+
+}
+
+// ============================================
+// INITIALIZE WEBSITE
+// ============================================
+
+renderTimer();
+updateEvidence();
+applyLanguage();
+
+</script>
+
+</body>
+</html>
